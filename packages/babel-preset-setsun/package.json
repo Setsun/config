@@ -1,0 +1,14 @@
+{
+  "name": "babel-preset-setsun",
+  "version": "1.0.0",
+  "description": "Babel preset",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Babel"
+  ],
+  "author": "Setsun",
+  "license": "MIT"
+}
