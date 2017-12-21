@@ -1,0 +1,14 @@
+{
+  "name": "dotfiles-setup-setsun",
+  "version": "1.0.0",
+  "description": "script for copying my personal dotfiles",
+  "main": "index.js",
+  "scripts": {
+    "start": "index.js"
+  },
+  "keywords": [
+    "dotfiles"
+  ],
+  "author": "Setsun",
+  "license": "MIT"
+}
