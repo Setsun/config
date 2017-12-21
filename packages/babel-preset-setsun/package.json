@@ -1,14 +1,20 @@
 {
   "name": "babel-preset-setsun",
   "version": "1.0.0",
-  "description": "Babel preset",
+  "description": "yet another babel preset",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "Babel"
+    "babel"
   ],
+  "dependencies": {
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-flow": "^6.23.0",
+    "babel-preset-stage-2": "^6.24.1"
+  },
   "author": "Setsun",
   "license": "MIT"
 }
