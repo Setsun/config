@@ -1,6 +1,7 @@
 module.exports = {
-  extends: ['eslint', 'babel-eslint', 'prettier'],
+  parser: 'babel-eslint',
   plugins: ['import', 'react', 'prettier'],
+  extends: ['eslint', 'babel-eslint', 'prettier'],
   rules: {
     'prettier': [
       'error',
