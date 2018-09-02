@@ -15,10 +15,13 @@ module.exports = function () {
       ],
       require.resolve('@babel/preset-react'),
       require.resolve('@babel/preset-typescript')
-    ]
+    ],
     plugins: [
+      [
+        require.resolve('@babel/plugin-proposal-decorators'),
+        { legacy: true },
+      ],
       require.resolve('@babel/plugin-proposal-class-properties'),
-      require.resolve('@babel/plugin-proposal-decorators'),
       require.resolve('@babel/plugin-proposal-export-namespace-from'),
       require.resolve('@babel/plugin-proposal-function-sent'),
       require.resolve('@babel/plugin-proposal-json-strings'),
