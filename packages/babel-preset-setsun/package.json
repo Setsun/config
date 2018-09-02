@@ -1,6 +1,6 @@
 {
   "name": "babel-preset-setsun",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "yet another babel preset",
   "main": "index.js",
   "scripts": {
