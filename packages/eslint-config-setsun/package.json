@@ -10,20 +10,20 @@
     "eslint"
   ],
   "devDependencies": {
-    "babel-eslint": "^8.2.3",
-    "eslint-config-eslint": "^4.0.0",
-    "eslint-config-prettier": "^2.9.0",
-    "eslint-plugin-import": "2.12.0",
-    "eslint-plugin-prettier": "^2.6.0",
-    "eslint-plugin-react": "7.8.2"
+    "babel-eslint": "9.0.0",
+    "eslint-config-eslint": "5.0.1",
+    "eslint-config-prettier": "3.0.1",
+    "eslint-plugin-import": "2.14.0",
+    "eslint-plugin-prettier": "2.6.0",
+    "eslint-plugin-react": "7.11.1"
   },
   "peerDependencies": {
-    "babel-eslint": "^8.2.3",
-    "eslint-config-eslint": "^4.0.0",
-    "eslint-config-prettier": "^2.9.0",
-    "eslint-plugin-import": "2.12.0",
-    "eslint-plugin-prettier": "^2.6.0",
-    "eslint-plugin-react": "7.8.2"
+    "babel-eslint": "9.0.0",
+    "eslint-config-eslint": "5.0.1",
+    "eslint-config-prettier": "3.0.1",
+    "eslint-plugin-import": "2.14.0",
+    "eslint-plugin-prettier": "2.6.0",
+    "eslint-plugin-react": "7.11.1"
   },
   "author": "Setsun",
   "license": "MIT"

@@ -3,7 +3,6 @@ const fs = require('fs');
 const files = [
   '.babelrc',
   '.eslintrc',
-  '.flowconfig',
   '.prettierrc'
 ];
 
