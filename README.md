@@ -7,4 +7,4 @@ This is my personal monorepo for common configuration files / packages I use in 
 ## Packages
 - **babel-preset-setsun** - babel plugins used for JS transpilin'
 - **eslint-config-setsun** - eslint plugins for JS lintin'
-- **dotfiles-setup-setsun** - script to copy dotfiles to new projects / environments
+- **dotfiles-setup-setsun** - script to copyin' dotfiles to new projects / environments
