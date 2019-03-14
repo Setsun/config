@@ -1,6 +1,6 @@
 {
   "name": "dotfiles-setup-setsun",
-  "version": "2.1.3",
+  "version": "2.2.1",
   "description": "script for copying personal dotfiles",
   "main": "index.js",
   "scripts": {
