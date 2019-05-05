@@ -1,6 +1,9 @@
 {
-	"devDependencies": {
-		"lerna": "^3.2.1"
-	},
-	"name": "config-setsun"
+  "devDependencies": {
+    "lerna": "^3.13.4"
+  },
+  "name": "config-setsun",
+  "scripts": {
+    "lerna": "lerna"
+  }
 }

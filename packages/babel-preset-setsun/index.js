@@ -4,6 +4,7 @@ module.exports = function () {
       [
         require.resolve('@babel/preset-env'),
         {
+          modules: 'umd',
           targets: {
             browsers: [
               'last 2 versions',
