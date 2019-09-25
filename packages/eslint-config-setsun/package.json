@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-setsun",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "yet another ESLint configuration",
   "main": "index.js",
   "keywords": [
