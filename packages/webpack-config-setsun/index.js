@@ -26,12 +26,12 @@ const cacheLoader = {
   },
 };
 
-const createConfig = ({
-  entry,
-  src,
-  dist,
+const create = ({
+  entry = 'index.tsx',
+  src = src,
+  dist = dist,
   loaderOptions = {},
-}) => {
+}) => ({
   target: 'web',
   mode: isProduction ? 'production' : 'development',
   context: src,
@@ -110,6 +110,8 @@ const createConfig = ({
     inline: true,
     historyApiFallback: true,
   },
-};
+});
 
-export default createConfig;
+module.exports = {
+  create
+};
