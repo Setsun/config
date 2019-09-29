@@ -7,29 +7,15 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const src = path.resolve(__dirname, 'src');
 const dist = path.resolve(__dirname, 'dist');
+const cache = path.resolve(__dirname, '.webpack-cache');
 
 const isProduction = process.env.NODE_ENV === 'production';
-
-const threadLoader = {
-  loader: 'thread-loader',
-  options: {
-    workers: Math.ceil(os.cpus() / 2),
-    workerParallelJobs: 50,
-    workerNodeArgs: ['--max-old-space-size=4096'],
-  },
-};
-
-const cacheLoader = {
-  loader: 'cache-loader',
-  options: {
-    cacheDirectory: webpackCache,
-  },
-};
 
 const create = ({
   entry = 'index.tsx',
   src = src,
   dist = dist,
+  cache = cache,
   loaderOptions = {},
 }) => ({
   target: 'web',
@@ -58,8 +44,20 @@ const create = ({
         test: /\.(j|t)s(x?)$/,
         exclude: /node_modules/,
         use: [
-          cacheLoader,
-          threadLoader,
+          {
+            loader: 'cache-loader',
+            options: {
+              cacheDirectory: cache,
+            },
+          },
+          {
+            loader: 'thread-loader',
+            options: {
+              workers: Math.ceil(os.cpus() / 2),
+              workerParallelJobs: 50,
+              workerNodeArgs: ['--max-old-space-size=4096'],
+            },
+          },
           { loader: 'babel-loader' }
         ],
       },
