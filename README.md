@@ -1,4 +1,3 @@
-
 # config-setsun
 [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lernajs.io/)
 
@@ -7,4 +6,4 @@ This is my personal monorepo for common configuration files / packages I use in 
 ## Packages
 - **babel-preset-setsun** - babel plugins used for JS transpilin'
 - **eslint-config-setsun** - eslint plugins for JS lintin'
-- **dotfiles-setup-setsun** - script to copyin' dotfiles to new projects / environments
+- **webpack-config-setsun** - webpack create function, for JS packin'
