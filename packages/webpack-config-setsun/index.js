@@ -6,6 +6,7 @@ const TerserJSPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const src = path.resolve(__dirname, 'src');
+const node_modules = path.resolve(__dirname, 'node_modules');
 const dist = path.resolve(__dirname, 'dist');
 const cache = path.resolve(__dirname, '.webpack-cache');
 
@@ -16,12 +17,13 @@ const create = ({
   src = src,
   dist = dist,
   cache = cache,
-  loaderOptions = {},
+  rules: [],
+  plugins: [],
 }) => ({
   target: 'web',
   mode: isProduction ? 'production' : 'development',
   context: src,
-  entry: 'index.tsx',
+  entry,
   output: {
     path: dist,
     filename: '[name]-[hash].js',
@@ -29,7 +31,7 @@ const create = ({
     publicPath: '/',
   },
   resolve: {
-    modules: [path.resolve('./node_modules'), path.resolve('./src')],
+    modules: [node_modules, src],
     extensions: ['*', '.js', '.jsx', '.ts', '.tsx', '.json'],
   },
   optimization: {
@@ -89,6 +91,7 @@ const create = ({
           },
         ],
       },
+      ...(rules ? rules : [])
     ],
   },
   plugins: [
@@ -100,6 +103,7 @@ const create = ({
       filename: 'styles.css',
     }),
     new webpack.HotModuleReplacementPlugin(),
+    ...(plugins ? plugins : [])
   ],
   devtool: 'cheap-module-source-map',
   devServer: {
