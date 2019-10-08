@@ -17,8 +17,8 @@ const create = ({
   src = src,
   dist = dist,
   cache = cache,
-  rules: [],
-  plugins: [],
+  rules = [],
+  plugins = [],
 }) => ({
   target: 'web',
   mode: isProduction ? 'production' : 'development',
