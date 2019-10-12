@@ -19,100 +19,105 @@ const create = ({
   cache = cache,
   rules = [],
   plugins = [],
-}) => ({
-  target: 'web',
-  mode: isProduction ? 'production' : 'development',
-  context: src,
-  entry,
-  output: {
-    path: dist,
-    filename: '[name]-[hash].js',
-    chunkFilename: '[id].[hash].bundle.js',
-    publicPath: '/',
-  },
-  resolve: {
-    modules: [node_modules, src],
-    extensions: ['*', '.js', '.jsx', '.ts', '.tsx', '.json'],
-  },
-  optimization: {
-    minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
-    splitChunks: {
-      chunks: 'all',
+}) => {
+  const rules = rules || [];
+  const plugins = plugins || [];
+
+  return {
+    entry,
+    context: src,
+    target: 'web',
+    mode: isProduction ? 'production' : 'development',
+    output: {
+      path: dist,
+      filename: '[name]-[hash].js',
+      chunkFilename: '[id].[hash].bundle.js',
+      publicPath: '/',
     },
-  },
-  module: {
-    rules: [
-      {
-        test: /\.(j|t)s(x?)$/,
-        exclude: /node_modules/,
-        use: [
-          {
-            loader: 'cache-loader',
-            options: {
-              cacheDirectory: cache,
-            },
-          },
-          {
-            loader: 'thread-loader',
-            options: {
-              workers: Math.ceil(os.cpus() / 2),
-              workerParallelJobs: 50,
-              workerNodeArgs: ['--max-old-space-size=4096'],
-            },
-          },
-          { loader: 'babel-loader' }
-        ],
+    resolve: {
+      modules: [node_modules, src],
+      extensions: ['*', '.js', '.jsx', '.ts', '.tsx', '.json'],
+    },
+    optimization: {
+      minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
+      splitChunks: {
+        chunks: 'all',
       },
-      {
-        test: /\.css$/,
-        use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              hmr: process.env.NODE_ENV !== 'production',
+    },
+    module: {
+      rules: [
+        {
+          test: /\.(j|t)s(x?)$/,
+          exclude: /node_modules/,
+          use: [
+            {
+              loader: 'cache-loader',
+              options: {
+                cacheDirectory: cache,
+              },
             },
-          },
-          {
-            loader: 'css-loader',
-            options: {
-              sourceMap: process.env.NODE_ENV !== 'production',
+            {
+              loader: 'thread-loader',
+              options: {
+                workers: Math.ceil(os.cpus() / 2),
+                workerParallelJobs: 50,
+                workerNodeArgs: ['--max-old-space-size=4096'],
+              },
             },
-          },
-        ],
-      },
-      {
-        test: /\.(png|jpg|gif)$/i,
-        use: [
-          {
-            loader: 'url-loader',
-            options: {
-              limit: 2048,
+            { loader: 'babel-loader' }
+          ],
+        },
+        {
+          test: /\.css$/,
+          use: [
+            {
+              loader: MiniCssExtractPlugin.loader,
+              options: {
+                hmr: process.env.NODE_ENV !== 'production',
+              },
             },
-          },
-        ],
-      },
-      ...(rules ? rules : [])
+            {
+              loader: 'css-loader',
+              options: {
+                sourceMap: process.env.NODE_ENV !== 'production',
+              },
+            },
+          ],
+        },
+        {
+          test: /\.(png|jpg|gif)$/i,
+          use: [
+            {
+              loader: 'url-loader',
+              options: {
+                limit: 2048,
+              },
+            },
+          ],
+        },
+        ...(rules ? rules : [])
+      ],
+    },
+    plugins: [
+      new HtmlWebpackPlugin({
+        filename: 'index.html',
+        template: 'index.html',
+      }),
+      new MiniCssExtractPlugin({
+        filename: 'styles.css',
+      }),
+      new webpack.HotModuleReplacementPlugin(),
+      ...(plugins ? plugins : [])
     ],
-  },
-  plugins: [
-    new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: 'index.html',
-    }),
-    new MiniCssExtractPlugin({
-      filename: 'styles.css',
-    }),
-    new webpack.HotModuleReplacementPlugin(),
-    ...(plugins ? plugins : [])
-  ],
-  devtool: 'cheap-module-source-map',
-  devServer: {
-    port: 8888,
-    hot: true,
-    inline: true,
-    historyApiFallback: true,
-  },
-});
+    devtool: 'cheap-module-source-map',
+    devServer: {
+      port: 8888,
+      hot: true,
+      inline: true,
+      historyApiFallback: true,
+    },
+  };
+};
 
 module.exports = {
   create

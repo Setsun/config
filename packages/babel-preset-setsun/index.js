@@ -1,11 +1,15 @@
-module.exports = () => ({
+module.exports = ({
+  ignore,
+}) => ({
   presets: [
     require.resolve('@babel/preset-typescript'),
     require.resolve('@babel/preset-react'),
     [
       require.resolve('@babel/preset-env'),
       {
-        modules: 'umd',
+        modules: 'auto',
+        useBuiltIns: 'usage',
+        corejs: { version: 3, proposals: true },
         targets: {
           browsers: [
             'last 2 versions',
@@ -21,6 +25,10 @@ module.exports = () => ({
       require.resolve('@babel/plugin-proposal-decorators'),
       { legacy: true },
     ],
-    require.resolve('@babel/plugin-proposal-class-properties'),
+    [
+      require.resolve('@babel/plugin-proposal-class-properties'),
+      { loose: true },
+    ],
   ],
+  ignore: (ignore || []),
 });
