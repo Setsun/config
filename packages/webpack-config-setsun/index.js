@@ -1,5 +1,4 @@
 const webpack = require('webpack');
-const path = require('path');
 const os = require('os');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
@@ -8,14 +7,11 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const create = (config) => {
   const isProduction = process.env.NODE_ENV === 'production';
-  const entry = config.entry || 'index.tsx';
-  const src = config.src || path.resolve(__dirname, 'src');
-  const dist = config.dist || path.resolve(__dirname, 'dist');
-  const cache = config.cache || path.resolve(__dirname, '.webpack-cache');
-  const node_modules = path.resolve(__dirname, 'node_modules');
   const rules = config.rules || [];
   const plugins = config.plugins || [];
   const port = config.port || 8888;
+
+  const { entry, src, dist, cache, node_modules } = config.paths;
 
   return {
     entry,
