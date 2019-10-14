@@ -4,6 +4,7 @@ const { exec } = require('child_process');
 
 const corePackages = [
   '@babel/core',
+  'core-js',
   'eslint',
   'prettier',
   'typescript',

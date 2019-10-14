@@ -1,6 +1,4 @@
-module.exports = ({
-  ignore,
-}) => ({
+module.exports = () => ({
   presets: [
     require.resolve('@babel/preset-typescript'),
     require.resolve('@babel/preset-react'),
@@ -30,5 +28,4 @@ module.exports = ({
       { loose: true },
     ],
   ],
-  ignore: (ignore || []),
 });

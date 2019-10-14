@@ -6,22 +6,16 @@ const TerserJSPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
-const create = ({
-  entry,
-  src,
-  dist,
-  cache,
-  rules,
-  plugins,
-}) => {
+const create = (config) => {
   const isProduction = process.env.NODE_ENV === 'production';
-  const entry = entry || 'index.tsx';
-  const src = src || path.resolve(__dirname, 'src');
-  const dist = dist || path.resolve(__dirname, 'dist');
-  const cache = cache || path.resolve(__dirname, '.webpack-cache');
+  const entry = config.entry || 'index.tsx';
+  const src = config.src || path.resolve(__dirname, 'src');
+  const dist = config.dist || path.resolve(__dirname, 'dist');
+  const cache = config.cache || path.resolve(__dirname, '.webpack-cache');
   const node_modules = path.resolve(__dirname, 'node_modules');
-  const rules = rules || [];
-  const plugins = plugins || [];
+  const rules = config.rules || [];
+  const plugins = config.plugins || [];
+  const port = config.port || 8888;
 
   return {
     entry,
@@ -94,7 +88,6 @@ const create = ({
       ]),
     },
     plugins: plugins.concat([
-      new webpack.HotModuleReplacementPlugin(),
       new HtmlWebpackPlugin({
         filename: 'index.html',
         template: 'index.html',
@@ -102,10 +95,12 @@ const create = ({
       new MiniCssExtractPlugin({
         filename: 'styles.css',
       }),
-    ]),
+    ]).concat(
+      !isProduction ? [new webpack.HotModuleReplacementPlugin()] : []
+    ),
     devtool: 'cheap-module-source-map',
     devServer: {
-      port: 8888,
+      port: port,
       hot: true,
       inline: true,
       historyApiFallback: true,
