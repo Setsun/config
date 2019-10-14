@@ -5,21 +5,21 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const src = path.resolve(__dirname, 'src');
-const node_modules = path.resolve(__dirname, 'node_modules');
-const dist = path.resolve(__dirname, 'dist');
-const cache = path.resolve(__dirname, '.webpack-cache');
-
-const isProduction = process.env.NODE_ENV === 'production';
 
 const create = ({
-  entry = 'index.tsx',
-  src = src,
-  dist = dist,
-  cache = cache,
-  rules = [],
-  plugins = [],
+  entry,
+  src,
+  dist,
+  cache,
+  rules,
+  plugins,
 }) => {
+  const isProduction = process.env.NODE_ENV === 'production';
+  const entry = entry || 'index.tsx';
+  const src = src || path.resolve(__dirname, 'src');
+  const dist = dist || path.resolve(__dirname, 'dist');
+  const cache = cache || path.resolve(__dirname, '.webpack-cache');
+  const node_modules = path.resolve(__dirname, 'node_modules');
   const rules = rules || [];
   const plugins = plugins || [];
 
@@ -45,7 +45,7 @@ const create = ({
       },
     },
     module: {
-      rules: [
+      rules: rules.concat([
         {
           test: /\.(j|t)s(x?)$/,
           exclude: /node_modules/,
@@ -72,15 +72,11 @@ const create = ({
           use: [
             {
               loader: MiniCssExtractPlugin.loader,
-              options: {
-                hmr: process.env.NODE_ENV !== 'production',
-              },
+              options: { hmr: !isProduction },
             },
             {
               loader: 'css-loader',
-              options: {
-                sourceMap: process.env.NODE_ENV !== 'production',
-              },
+              options: { sourceMap: !isProduction },
             },
           ],
         },
@@ -95,10 +91,10 @@ const create = ({
             },
           ],
         },
-        ...(rules ? rules : [])
-      ],
+      ]),
     },
-    plugins: [
+    plugins: plugins.concat([
+      new webpack.HotModuleReplacementPlugin(),
       new HtmlWebpackPlugin({
         filename: 'index.html',
         template: 'index.html',
@@ -106,9 +102,7 @@ const create = ({
       new MiniCssExtractPlugin({
         filename: 'styles.css',
       }),
-      new webpack.HotModuleReplacementPlugin(),
-      ...(plugins ? plugins : [])
-    ],
+    ]),
     devtool: 'cheap-module-source-map',
     devServer: {
       port: 8888,
