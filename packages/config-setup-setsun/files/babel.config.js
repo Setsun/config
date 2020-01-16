@@ -7,4 +7,3 @@ module.exports = (api) => {
     presets: ['setsun']
   };
 };
-  

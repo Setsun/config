@@ -5,11 +5,22 @@ module.exports = {
   },
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaVersion:  2020,
-    sourceType:  'module'
+    ecmaVersion: 2020,
+    ecmaFeatures: {
+      jsx: true
+    },
+    sourceType: 'module'
   },
+  plugins: [
+    "@typescript-eslint/eslint-plugin",
+    "node",
+    "react"
+  ],
   extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'plugin:import/errors',
     'plugin:import/warnings',
     'plugin:import/typescript',
@@ -18,9 +29,6 @@ module.exports = {
     'plugin:prettier/recommended',
     'prettier/@typescript-eslint',
   ],
-  ecmaFeatures: {
-    jsx:  true
-  },
   rules: {},
   settings: {
     react: {
