@@ -5,6 +5,19 @@ const TerserJSPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
+/**
+ * The create function returns a full webpack configuration object.
+ * 
+ * @param {Object} config - The configuration options for webpack
+ * @param {Object[]} config.rules - Additional rules for webpack
+ * @param {Object[]} config.plugins - Additional plugins for webpack
+ * @param {number} config.port - The port for webpack-dev-server
+ * @param {Object} config.paths - The paths for certain folders that webpack watches / builds to
+ * @param {string} config.paths.src - The folder for watching source files
+ * @param {string} config.paths.dist - The folder for building distribution files to
+ * @param {string} config.paths.cache - The folder for the webpack compilation cache
+ * @param {string} config.paths.node_modules - The folder where node_modules are located
+ */
 const create = (config) => {
   const isProduction = process.env.NODE_ENV === 'production';
   const rules = config.rules || [];
