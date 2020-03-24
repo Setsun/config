@@ -1,6 +1,6 @@
 {
   "name": "config-setup-setsun",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "main": "index.js",
   "bin": "index.js",
   "license": "MIT",
