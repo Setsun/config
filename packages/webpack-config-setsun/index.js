@@ -1,9 +1,9 @@
-const webpack = require('webpack');
-const os = require('os');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const TerserJSPlugin = require('terser-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const webpack = require("webpack");
+const os = require("os");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const TerserJSPlugin = require("terser-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
 /**
  * The create function returns a full webpack configuration object.
@@ -11,6 +11,8 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
  * @param {Object} config - The configuration options for webpack
  * @param {Object[]} config.rules - Additional rules for webpack
  * @param {Object[]} config.plugins - Additional plugins for webpack
+ * @param {Object} config.externals - Modules to not compile, and request at runtime
+ * @param {string} config.target - The target compilation environment
  * @param {number} config.port - The port for webpack-dev-server
  * @param {Object} config.paths - The paths for certain folders that webpack watches / builds to
  * @param {string} config.paths.src - The folder for watching source files
@@ -19,34 +21,35 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
  * @param {string} config.paths.node_modules - The folder where node_modules are located
  */
 const create = (config) => {
-  const isProduction = process.env.NODE_ENV === 'production';
-  const rules = config.rules || [];
-  const plugins = config.plugins || [];
-  const port = config.port || 8888;
+  const isProduction = process.env.NODE_ENV === "production";
+  const rules = config.rules ?? [];
+  const plugins = config.plugins ?? [];
+  const port = config.port ?? 8888;
 
   const { entry, src, dist, cache, node_modules } = config.paths;
 
   return {
     entry,
     context: src,
-    target: 'web',
-    mode: isProduction ? 'production' : 'development',
+    target: config.target ?? "web",
+    mode: isProduction ? "production" : "development",
     output: {
       path: dist,
-      filename: '[name]-[hash].js',
-      chunkFilename: '[id].[hash].bundle.js',
-      publicPath: '/',
+      filename: "[name]-[hash].js",
+      chunkFilename: "[id].[hash].bundle.js",
+      publicPath: "/",
     },
     resolve: {
       modules: [node_modules, src],
-      extensions: ['*', '.js', '.jsx', '.ts', '.tsx', '.json'],
+      extensions: ["*", ".js", ".jsx", ".ts", ".tsx", ".json"],
     },
     optimization: {
       minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
       splitChunks: {
-        chunks: 'all',
+        chunks: "all",
       },
     },
+    externals: config.externals ?? {},
     module: {
       rules: rules.concat([
         {
@@ -54,20 +57,20 @@ const create = (config) => {
           exclude: /node_modules/,
           use: [
             {
-              loader: 'cache-loader',
+              loader: "cache-loader",
               options: {
                 cacheDirectory: cache,
               },
             },
             {
-              loader: 'thread-loader',
+              loader: "thread-loader",
               options: {
                 workers: Math.ceil(os.cpus() / 2),
                 workerParallelJobs: 50,
-                workerNodeArgs: ['--max-old-space-size=4096'],
+                workerNodeArgs: ["--max-old-space-size=4096"],
               },
             },
-            { loader: 'babel-loader' }
+            { loader: "babel-loader" },
           ],
         },
         {
@@ -78,7 +81,7 @@ const create = (config) => {
               options: { hmr: !isProduction },
             },
             {
-              loader: 'css-loader',
+              loader: "css-loader",
               options: { sourceMap: !isProduction },
             },
           ],
@@ -87,7 +90,7 @@ const create = (config) => {
           test: /\.(png|jpg|gif)$/i,
           use: [
             {
-              loader: 'url-loader',
+              loader: "url-loader",
               options: {
                 limit: 2048,
               },
@@ -98,16 +101,16 @@ const create = (config) => {
     },
     plugins: plugins.concat([
       new HtmlWebpackPlugin({
-        filename: 'index.html',
-        template: 'index.html',
+        filename: "index.html",
+        template: "index.html",
       }),
       new MiniCssExtractPlugin({
-        filename: 'styles.css',
+        filename: "styles.css",
       }),
     ]).concat(
-      !isProduction ? [new webpack.HotModuleReplacementPlugin()] : []
+      !isProduction ? [new webpack.HotModuleReplacementPlugin()] : [],
     ),
-    devtool: 'cheap-module-source-map',
+    devtool: "cheap-module-source-map",
     devServer: {
       port: port,
       hot: true,
@@ -118,5 +121,5 @@ const create = (config) => {
 };
 
 module.exports = {
-  create
+  create,
 };
